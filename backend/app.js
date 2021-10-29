@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -34,6 +35,12 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(limiter);
 app.use(express.json());
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
