@@ -10,7 +10,7 @@ class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this._address}/${this._groupId}/cards`, {
+    return fetch(`${this._address}/cards`, {
       headers: {
         authorization: this._token,
       },
@@ -18,7 +18,7 @@ class Api {
   }
 
   getUserData(data) {
-    return fetch(`${this._address}/${this._groupId}/users/me`, {
+    return fetch(`${this._address}/users/me`, {
       method: "PATCH",
       headers: {
         authorization: this._token,
@@ -32,7 +32,7 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._address}/${this._groupId}/users/me`, {
+    return fetch(`${this._address}/users/me`, {
       method: "GET",
       headers: {
         authorization: this._token,
@@ -41,7 +41,7 @@ class Api {
   }
 
   addCard(data) {
-    return fetch(`${this._address}/${this._groupId}/cards`, {
+    return fetch(`${this._address}/cards`, {
       method: "POST",
       headers: {
         authorization: this._token,
@@ -55,7 +55,7 @@ class Api {
   }
 
   changeAvatar(infoAvatar) {
-    return fetch(`${this._address}/${this._groupId}/users/me/avatar`, {
+    return fetch(`${this._address}/users/me/avatar`, {
       method: "PATCH",
       headers: {
         authorization: this._token,
@@ -68,7 +68,7 @@ class Api {
   }
 
   deleteCard(id) {
-    return fetch(`${this._address}/${this._groupId}/cards/${id}`, {
+    return fetch(`${this._address}/cards/${id}`, {
       method: "DELETE",
       headers: {
         authorization: this._token,
@@ -78,7 +78,7 @@ class Api {
 
   setLike(id, isLiked) {
     const method = isLiked ? "PUT" : "DELETE";
-    return fetch(`${this._address}/${this._groupId}/cards/likes/${id}`, {
+    return fetch(`${this._address}/cards/likes/${id}`, {
       method: method,
       headers: {
         authorization: this._token,
