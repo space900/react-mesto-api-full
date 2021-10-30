@@ -18,7 +18,7 @@ export const routes = {
 };
 
 // базовый URL
-export const defaultUrl = "https://auth.nomoreparties.co";
+export const defaultUrl = "https://api.space900.nomoredomains.work";
 
 // попапы
 export const popupType = {

@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-// const cors = require('cors');
+const cors = require('cors');
 // eslint-disable-next-line no-unused-vars
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
@@ -19,6 +19,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 
+const corsAllowed = [
+  'https://space900.nomoredomains.work/',
+  'https://api.space900.nomoredomains.work/',
+  'https://localhost:3000',
+  'https://localhost:3001',
+];
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -28,7 +35,19 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-// app.use(cors);
+app.use(cors({
+  credentials: true,
+  origin(origin, callback) {
+    if (corsAllowed.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Denied by CORS'));
+    }
+  },
+}));
+
+app.options('*', cors());
+
 app.use(requestLogger);
 
 app.use(cookieParser());
