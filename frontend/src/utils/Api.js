@@ -1,8 +1,7 @@
 class Api {
-  constructor({ address, token, groupId }) {
-    this._address = address;
-    this._token = token;
-    this._groupId = groupId;
+  constructor(options) {
+    this._address = options.address;
+    this._headers = options.headers;
   }
 
   _checkResponse(result) {
@@ -11,19 +10,16 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._address}/cards`, {
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   getUserData(data) {
     return fetch(`${this._address}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
+      credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -34,19 +30,16 @@ class Api {
   getUserInfo() {
     return fetch(`${this._address}/users/me`, {
       method: "GET",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   addCard(data) {
     return fetch(`${this._address}/cards`, {
       method: "POST",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
+      credentials: 'include',
       body: JSON.stringify({
         link: data.link,
         name: data.photoName,
@@ -57,10 +50,8 @@ class Api {
   changeAvatar(infoAvatar) {
     return fetch(`${this._address}/users/me/avatar`, {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
+      credentials: 'include',
       body: JSON.stringify({
         avatar: infoAvatar.avatar,
       }),
@@ -70,19 +61,17 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._address}/cards/${id}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
   setLike(id, isLiked) {
     const method = isLiked ? "PUT" : "DELETE";
-    return fetch(`${this._address}/cards/likes/${id}`, {
+    return fetch(`${this._address}/cards/${id}/likes`, {
       method: method,
-      headers: {
-        authorization: this._token,
-      },
+      headers: this._headers,
+      credentials: 'include',
     }).then(this._checkResponse);
   }
 
