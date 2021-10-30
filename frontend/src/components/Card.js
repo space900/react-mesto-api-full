@@ -12,7 +12,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   const isLiked = card.likes.some((i) => i === currentUser._id);
   const cardLikeButtonClassName = `photo-grid__like-btn ${
-    isLiked ? "photo-grid__like-btn_active" : ""
+    isLiked && "photo-grid__like-btn_active"
   }`;
 
   function handleClick() {
