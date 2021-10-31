@@ -6,4 +6,4 @@
 
 * Ссылка на сайт, размещенный на Яндекс.Облаке: https://space900.nomoredomains.work
 * Ссылка на API: https://api.space900.nomoredomains.work
-* Публичный ip адрес: 62.84.115.250 
+* Публичный ip адрес: 84.201.133.173
