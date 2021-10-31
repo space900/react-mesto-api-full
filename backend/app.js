@@ -15,10 +15,16 @@ const messages = require('./errors/messages');
 const { auth } = require('./middlewares/auth');
 const { loginValidation, userValidation } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const corsAllow = require('./middlewares/cors');
+// const corsAllow = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+const allowedCors = [
+  'https://space900.nomoredomains.work',
+  'https://api.space900.nomoredomains.work',
+  'http://localhost:3000',
+];
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -29,8 +35,23 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use(corsAllow);
-app.use(cors());
+// app.use(corsAllow);
+// app.use(cors());
+
+app.use(
+  cors({
+    credentials: true,
+    origin(origin, callback) {
+      if (allowedCors.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  }),
+);
+
+app.options('*', cors());
 
 app.use(requestLogger);
 
