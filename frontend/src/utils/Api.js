@@ -10,6 +10,7 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._address}/cards`, {
+      method: "GET",
       headers: this._headers,
       credentials: 'include',
     }).then(this._checkResponse);

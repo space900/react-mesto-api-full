@@ -42,13 +42,15 @@ function App() {
   const messageSingIn = isSignIn ? "Вход" : "Войти";
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCurrentUser(userData);
         setCards(cards);
       })
       .catch((e) => console.log(`Ошибка при получении данных: ${e}`));
-  }, []);
+    }
+  }, [loggedIn]);
 
   const tokenCheck = React.useCallback(() => {
     if (localStorage.getItem("jwt")) {
