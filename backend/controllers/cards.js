@@ -7,7 +7,7 @@ const NotFound = require('../errors/classes/notFound');
 const ForbiddenError = require('../errors/classes/forbiddenError');
 
 module.exports.getCards = (req, res, next) => {
-  Card.find({})
+  Card.find({}).sort({ cretedAt: -1 })
     .then((cards) => res.send(cards))
     .catch(next);
 };
