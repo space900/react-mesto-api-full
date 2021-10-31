@@ -1,4 +1,4 @@
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,POST,PATH,DELETE';
+const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATH,POST,DELETE';
 
 const allowedCors = [
   'https://space900.nomoredomains.work',
