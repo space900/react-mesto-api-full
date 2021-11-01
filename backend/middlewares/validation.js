@@ -1,23 +1,21 @@
-const { celebrate, Joi, CelebrateError } = require('celebrate');
-const { isURL, isEmail } = require('validator');
+const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const messages = require('../errors/messages');
+
+const isURL = (v) => {
+  const res = validator.isURL(v, { require_protocol: true });
+  if (res) {
+    return v;
+  }
+  throw new Error(messages.BAD_URL_VALID);
+};
 
 module.exports.userValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom((value) => {
-      if (!isURL(value)) {
-        throw new CelebrateError(messages.BAD_EMAIL_VALID);
-      }
-      return value;
-    }),
-    email: Joi.string().required().custom((value) => {
-      if (!isEmail(value)) {
-        throw new CelebrateError(messages.BAD_EMAIL_VALID);
-      }
-      return value;
-    }),
+    avatar: Joi.string().custom(isURL),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
@@ -30,12 +28,7 @@ module.exports.userIdValidation = celebrate({
 
 module.exports.userAvatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().custom((value) => {
-      if (!isURL(value)) {
-        throw new CelebrateError(messages.BAD_URL_VALID);
-      }
-      return value;
-    }).required(),
+    avatar: Joi.string().required().custom(isURL).required(),
   }),
 });
 
@@ -48,12 +41,7 @@ module.exports.userInfoValidation = celebrate({
 
 module.exports.loginValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().custom((value) => {
-      if (!isEmail(value)) {
-        throw new CelebrateError(messages.BAD_EMAIL_VALID);
-      }
-      return value;
-    }),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
@@ -61,12 +49,7 @@ module.exports.loginValidation = celebrate({
 module.exports.cardValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    link: Joi.string().custom((value) => {
-      if (!isURL(value)) {
-        throw new CelebrateError(messages.BAD_URL_VALID);
-      }
-      return value;
-    }),
+    link: Joi.string().custom(isURL),
   }),
 });
 

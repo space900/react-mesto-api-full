@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const validator = require('validator');
+// const validator = require('validator');
+const isEmail = require('validator/lib/isEmail');
+const isURL = require('validator/lib/isURL');
+const isStrongPassword = require('validator/lib/isStrongPassword');
 const messages = require('../errors/messages');
 const UnauthorizedError = require('../errors/classes/unauthorizedError');
 
@@ -26,10 +29,12 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator(v) {
-        return avatarValidity.test(v);
+      validator: (v) => {
+        avatarValidity.test(v);
+        const isValid = isURL(v);
+        return isValid;
       },
-      message: messages.BAD_REQUEST_AVATAR_UPD,
+      message: messages.BAD_URL_VALID,
     },
   },
   email: {
@@ -37,8 +42,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: (email) => {
-        validator.isEmail(email);
+      validator: (v) => {
+        const isValid = isEmail(v);
+        return isValid;
       },
       message: messages.BAD_EMAIL_VALID,
     },
@@ -49,8 +55,9 @@ const userSchema = new mongoose.Schema({
     select: false,
     minlength: 8,
     validate: {
-      validator(v) {
-        return validator.isStrongPassword(v);
+      validator: (v) => {
+        const isValid = isStrongPassword(v);
+        return isValid;
       },
       message: messages.TOO_EASY_PASSWORD,
     },
