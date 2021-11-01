@@ -4,6 +4,8 @@ const validator = require('validator');
 const messages = require('../errors/messages');
 const UnauthorizedError = require('../errors/classes/unauthorizedError');
 
+const avatarValidity = /https?:\/\/(www\.)?[a-zA-Zа-яА-Я0-9._~:/?#[\]@!$&’()*+,;=\\-]+#?/g;
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -24,8 +26,8 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator: (URL) => {
-        validator.isURL(URL, { require_protocol: true });
+      validator(v) {
+        return avatarValidity.test(v);
       },
       message: messages.BAD_REQUEST_AVATAR_UPD,
     },
@@ -45,6 +47,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
+    minlength: 8,
     validate: {
       validator(v) {
         return validator.isStrongPassword(v);
