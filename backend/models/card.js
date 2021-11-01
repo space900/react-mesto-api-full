@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const messages = require('../errors/messages');
+
+const cardValidity = /^(http:\/\/|https:\/\/w*\w)/;
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -13,8 +14,8 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(link) {
-        return validator.isURL(link);
+      validator(v) {
+        return cardValidity.test(v);
       },
       message: messages.BAD_URL_VALID,
     },
@@ -33,6 +34,7 @@ const cardSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
+},
+{ versionKey: false });
 
 module.exports = mongoose.model('card', cardSchema);

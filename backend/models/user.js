@@ -4,7 +4,7 @@ const validator = require('validator');
 const messages = require('../errors/messages');
 const UnauthorizedError = require('../errors/classes/unauthorizedError');
 
-const avatarValidity = /https?:\/\/(www\.)?[a-zA-Zа-яА-Я0-9._~:/?#[\]@!$&’()*+,;=\\-]+#?/g;
+const avatarValidity = /^(http:\/\/|https:\/\/w*\w)/;
 
 const userSchema = new mongoose.Schema({
   name: {
