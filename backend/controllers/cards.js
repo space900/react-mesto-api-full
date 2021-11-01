@@ -51,9 +51,9 @@ module.exports.likeCard = (req, res, next) => {
     { new: true })
     .then((card) => {
       if (!card) {
-        return res.status(404).send(messages.NOT_FOUND_CARD);
+        throw new BadRequest(messages.NOT_FOUND_CARD);
       }
-      return res.status(200).send(card);
+      return res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -71,9 +71,9 @@ module.exports.dislikeCard = (req, res, next) => {
     { new: true })
     .then((card) => {
       if (!card) {
-        return res.status(404).send(messages.NOT_FOUND_CARD);
+        throw new BadRequest(messages.NOT_FOUND_CARD);
       }
-      return res.status(200).send(card);
+      return res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
