@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const messages = require('../errors/messages');
 
-const cardValidity = /^(http:\/\/|https:\/\/w*\w)/;
+// const cardValidity = /^(http:\/\/|https:\/\/w*\w)/;
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -15,7 +15,7 @@ const cardSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return cardValidity.test(v);
+        return /^(http:\/\/|https:\/\/w*\w)/.test(v);
       },
       message: messages.BAD_URL_VALID,
     },
