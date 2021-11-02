@@ -49,7 +49,7 @@ module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .orFail(new NotFound(messages.NOT_FOUND_CARD))
+    .orFail(new BadRequest(messages.NOT_FOUND_CARD))
     .then((card) => {
       if (!card) {
         throw new BadRequest(messages.NOT_FOUND_CARD);
@@ -70,6 +70,7 @@ module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true })
+    .orFail(new BadRequest(messages.NOT_FOUND_CARD))
     .then((card) => {
       if (!card) {
         throw new BadRequest(messages.NOT_FOUND_CARD);
