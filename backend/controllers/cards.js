@@ -49,6 +49,7 @@ module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true })
+    .orFail(new NotFound(messages.NOT_FOUND_CARD))
     .then((card) => {
       if (!card) {
         throw new BadRequest(messages.NOT_FOUND_CARD);
