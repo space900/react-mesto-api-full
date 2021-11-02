@@ -49,7 +49,7 @@ module.exports.loginValidation = celebrate({
 module.exports.cardValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().custom(isURL),
+    link: Joi.string().custom(isURL).required(),
   }),
 });
 
