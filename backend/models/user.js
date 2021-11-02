@@ -5,7 +5,7 @@ const isEmail = require('validator/lib/isEmail');
 const isURL = require('validator/lib/isURL');
 const isStrongPassword = require('validator/lib/isStrongPassword');
 const messages = require('../errors/messages');
-const UnauthorizedError = require('../errors/classes/unauthorizedError');
+const { UnauthorizedError } = require('../errors/classes/unauthorizedError');
 
 const avatarValidity = /^(http:\/\/|https:\/\/w*\w)/;
 
